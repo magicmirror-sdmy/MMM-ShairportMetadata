@@ -1,5 +1,4 @@
-/* global Log, Module */
-
+ /* global Log, Module */
 /* Magic Mirror
  * Module: MMM-ShairportMetadata
  *
