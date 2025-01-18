@@ -1,17 +1,25 @@
-.MMM-ShairportMetadata progress[value] {
-	-webkit-appearance: none;
-   	appearance: none;
-    color: red;
-		width: 150px;
-    border: 1px solid white;
-    border-radius: 10px;
-    height: 5px;
+/* Style for the title */
+.album-title {
+    font-size: 20px; /* Adjust the font size as needed */
+    color: var(--color-text-dimmed); /* Use the color variable */
+    text-align: center; /* Adjust the text alignment */
 }
 
-.MMM-ShairportMetadata progress[value]::-webkit-progress-bar {
-	background-color: black;
+/* Style for the album art */
+.albumart {
+    width: 280px; /* Set the width */
+    height: 320px; /* Set the height */
+    border-radius: 10px; /* Adjust the border radius as needed */
 }
 
-.MMM-ShairportMetadata progress[value]::-webkit-progress-value {
-	background-color: white;
+/* Keyframes for pulse animation */
+/*@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
+
+/* Pulse animation class */
+/*.pulse-animation {
+    animation: pulse 2s linear infinite;
+}*/
