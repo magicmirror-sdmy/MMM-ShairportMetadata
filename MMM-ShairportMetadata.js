@@ -1,4 +1,4 @@
-/* global Log, Module */
+ /* global Log, Module */
 /* Magic Mirror
  * Module: MMM-ShairportMetadata
  *
@@ -7,6 +7,7 @@
  */
 
 Module.register("MMM-ShairportMetadata", {
+
     // Module config defaults.
     defaults: {
         metadataPipe: "/tmp/shairport-sync-metadata",
@@ -18,7 +19,7 @@ Module.register("MMM-ShairportMetadata", {
         this.albumart = null;
         this.metadata = {};
 
-        // Notify node_helper to start processing
+        // Notify the node_helper to start processing
         this.sendSocketNotification('CONFIG', this.config);
 
         // Schedule periodic DOM updates
@@ -28,24 +29,20 @@ Module.register("MMM-ShairportMetadata", {
     },
 
     socketNotificationReceived: function (notification, payload) {
-        if (notification === "MEDIA_STATE") {
-            Log.info(`MMM-ShairportMetadata: Media ${payload}`); // Log Pause/Resume
-            this.sendNotification(`MEDIA_${payload.toUpperCase()}`); // Send global notification
-        }
+    if (notification === 'DATA_BROADCAST') {
+        // Send the notification globally so other modules can catch it
+        this.sendNotification("DATA_BROADCAST", payload);
+        Log.info("MMM-ShairportMetadata sent DATA_BROADCAST notification");
 
-        if (notification === "DATA_BROADCAST") {
-            this.sendNotification("DATA_BROADCAST", payload);
-            Log.info("MMM-ShairportMetadata sent DATA_BROADCAST notification");
-
-            if (payload.hasOwnProperty('image')) {
-                this.albumart = payload['image'];
-                this.animateLeftToRight();
-            } else {
-                this.metadata = payload;
-            }
-            this.updateDom(1000);
+        if (payload.hasOwnProperty('image')) {
+            this.albumart = payload['image'];
+            this.animateLeftToRight();
+        } else {
+            this.metadata = payload;
         }
-    },
+        this.updateDom(1000);
+    }
+},
 
     getDom: function () {
         const wrapper = document.createElement("div");
@@ -85,10 +82,11 @@ Module.register("MMM-ShairportMetadata", {
         metadataElement.style.animation = "leftToRight 10s linear";
         setTimeout(() => {
             metadataElement.style.animation = "";
-        }, 10000);
+        }, 10000); // 10s animation duration
     },
 
     getStyles: function () {
         return ["MMM-ShairportMetadata.css"];
     },
+
 });
