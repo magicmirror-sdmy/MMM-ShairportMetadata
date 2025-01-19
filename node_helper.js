@@ -50,7 +50,13 @@ module.exports = NodeHelper.create({
                 try {
                     const data = JSON.parse(lines[i]);
 
-                    // Handle Pause and Resume
+                    // Handle Pause and Resume and prgr
+
+                    if (data.type === "ssnc" && data.code === "prgr") {
+                        console.log("Raw PRGR Data Received: " + data.value);
+                        self.sendSocketNotification("PRGR", data.value); // Send the raw hexadecimal string
+                    }
+
                     if (data.type === "ssnc" && data.code === "paus") {
                         console.log("Media Paused");
                         self.sendSocketNotification("PAUSE", {});
