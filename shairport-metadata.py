@@ -55,7 +55,7 @@ if __name__ == "__main__":
                 continue
             data = read_data(sys.stdin.readline(), length)
 
-        # Everything read
+        # Handle metadata based on type and code
         if typ == "core":
             if code == "asal":
                 metadata['Album Name'] = data.decode('utf-8')
@@ -63,6 +63,14 @@ if __name__ == "__main__":
                 metadata['Artist'] = data.decode('utf-8')
             elif code == "minm":
                 metadata['Title'] = data.decode('utf-8')
+
+        if typ == "ssnc" and code == "paus":
+            print(json.dumps({"type": "ssnc", "code": "paus"}))
+            sys.stdout.flush()
+
+        if typ == "ssnc" and code == "prsm":
+            print(json.dumps({"type": "ssnc", "code": "prsm"}))
+            sys.stdout.flush()
 
         if typ == "ssnc" and code == "pfls":
             metadata = {}
