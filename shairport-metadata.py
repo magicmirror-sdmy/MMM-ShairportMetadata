@@ -80,6 +80,11 @@ if __name__ == "__main__":
             metadata = {}
             print(json.dumps({}))
             sys.stdout.flush()
+        if typ == "ssnc" and code == "prgr":
+            if len(data) > 0:
+               print(json.dumps({"type": "ssnc", "code": "prgr", "value": data.hex()}))
+               sys.stdout.flush()
+
         if typ == "ssnc" and code == "PICT":
             if len(data) == 0:
                 print(json.dumps({"image": ""}))
