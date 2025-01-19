@@ -34,6 +34,11 @@ Module.register("MMM-ShairportMetadata", {
             Log.info("Global Notification: Media Resumed");
             this.sendNotification("RESUME");
         }
+        if (notification === "PRGR") {
+            Log.info("Global Notification: PRGR Data Received");
+            this.sendNotification("PRGR", payload);
+        }
+
         if (notification === 'DATA_BROADCAST') {
             this.sendNotification("DATA_BROADCAST", payload);
             Log.info("MMM-ShairportMetadata sent DATA_BROADCAST notification");
