@@ -49,6 +49,18 @@ module.exports = NodeHelper.create({
 
                 try {
                     const data = JSON.parse(lines[i]);
+
+                    // Handle Pause and Resume
+                    if (data.type === "ssnc" && data.code === "paus") {
+                        console.log("Media Paused");
+                        self.sendSocketNotification("PAUSE", {});
+                    }
+
+                    if (data.type === "ssnc" && data.code === "prsm") {
+                        console.log("Media Resumed");
+                        self.sendSocketNotification("RESUME", {});
+                    }
+
                     self.sendSocketNotification("DATA_BROADCAST", data);
                 } catch (err) {
                     // Handle JSON parse errors
