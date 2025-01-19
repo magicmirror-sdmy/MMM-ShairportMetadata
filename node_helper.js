@@ -11,7 +11,7 @@ const spawn = require('child_process').spawn;
 
 module.exports = NodeHelper.create({
     start: function () {
-        console.log("MMM-ShairportMetadata helper started...");
+        // Module initialization
     },
 
     socketNotificationReceived: function (notification, payload) {
@@ -26,7 +26,7 @@ module.exports = NodeHelper.create({
             return; // Prevent multiple processes
         }
 
-        const self = this; // Store reference to the module instance
+        const self = this;
         self.str_payload = "";
 
         this.readableStream = spawn(__dirname + "/shairport-metadata.sh", [this.config.metadataPipe, __dirname]);
@@ -49,15 +49,9 @@ module.exports = NodeHelper.create({
 
                 try {
                     const data = JSON.parse(lines[i]);
-
-                    if (data.event === "Pause" || data.event === "Resume") {
-                        console.log(`Shairport Metadata: Media ${data.event}`); // Log Pause/Resume
-                        self.sendSocketNotification("MEDIA_STATE", data.event); // Use self instead of this
-                    } else {
-                        self.sendSocketNotification("DATA_BROADCAST", data); // Use self instead of this
-                    }
+                    self.sendSocketNotification("DATA_BROADCAST", data);
                 } catch (err) {
-                    console.error("Error parsing JSON:", err);
+                    // Handle JSON parse errors
                 }
             }
         });
