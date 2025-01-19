@@ -49,9 +49,15 @@ module.exports = NodeHelper.create({
 
                 try {
                     const data = JSON.parse(lines[i]);
-                    self.sendSocketNotification("DATA_BROADCAST", data);
+                    
+                    if (data.event === "Pause" || data.event === "Resume") {
+                        console.log(`Shairport Metadata: Media ${data.event}`); // Log Pause/Resume
+                        this.sendSocketNotification("MEDIA_STATE", data.event);
+                    } else {
+                        this.sendSocketNotification("DATA_BROADCAST", data);
+                    }
                 } catch (err) {
-                    // Handle JSON parse errors
+                    console.error("Error parsing JSON:", err);
                 }
             }
         });
